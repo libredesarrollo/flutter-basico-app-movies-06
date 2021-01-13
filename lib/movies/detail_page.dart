@@ -9,7 +9,7 @@ class DetailPage extends StatelessWidget {
 
   final MovieModel movie;
 
-  const DetailPage({ @required this.movie});
+  const DetailPage({@required this.movie});
 
   @override
   Widget build(BuildContext context) {
@@ -45,14 +45,26 @@ class DetailPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Hero(
+                        tag: 'title_${movie.id}',
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 20, left: 10),
+                          child: Text(
+                            movie.title,
+                            style: Theme.of(context).textTheme.headline1,
+                          ),
+                        )),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(3),
-                          child: Image.network(
-                            pathPosted,
-                            width: 60,
+                          child: Hero(
+                            tag: 'poster_${movie.id}',
+                            child: Image.network(
+                              pathPosted,
+                              width: 60,
+                            ),
                           ),
                         ),
                         Expanded(
@@ -78,11 +90,12 @@ class DetailPage extends StatelessWidget {
                             )
                           ],
                         )),
-                        Text(
-                          movie.releaseDate,
-                          style: TextStyle(
-                              fontStyle: FontStyle.italic,
-                              color: Colors.grey[600]),
+                        Hero(
+                          tag: 'date_${movie.id}',
+                          child: Text(
+                            movie.releaseDate,
+                            style: Theme.of(context).textTheme.bodyText2,
+                          ),
                         )
                       ],
                     ),
@@ -95,7 +108,10 @@ class DetailPage extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(20.0),
-                      child: Text("Top 15", style: TextStyle(fontSize: 20),),
+                      child: Text(
+                        "Top 15",
+                        style: TextStyle(fontSize: 20),
+                      ),
                     ),
                     FutureBuilder(
                       future: HttpHelper.getTop(),
